@@ -2191,6 +2191,10 @@ class TaskProcessor {
     final protected HashCode createTaskHashKey(TaskRun task) {
 
         List keys = [ session.uniqueId, name, task.source ]
+        if (task.config.getProperty("removeSessionIdentifier").asBoolean()) {
+            log.warn "Task: $name > session identifier removed, task hash will not change"
+            keys.remove(0)
+        }
 
         if( task.isContainerEnabled() )
             keys << task.getContainerFingerprint()
