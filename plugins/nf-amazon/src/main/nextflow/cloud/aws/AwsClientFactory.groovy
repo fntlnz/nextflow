@@ -15,6 +15,9 @@
  */
 
 package nextflow.cloud.aws
+import com.amazonaws.services.batch.AWSBatch
+import com.amazonaws.services.batch.AWSBatchClientBuilder
+import com.amazonaws.client.builder.AwsClientBuilder
 
 import com.amazonaws.AmazonClientException
 import com.amazonaws.ClientConfiguration
@@ -206,9 +209,10 @@ class AwsClientFactory {
      */
     @Memoized
     AWSBatch getBatchClient() {
+
         final builder = AWSBatchClientBuilder
                 .standard()
-                .withRegion(region)
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:8080", region))
 
         final credentials = getCredentialsProvider0()
         if( credentials )
